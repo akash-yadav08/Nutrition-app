@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Nutrition Planner</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,Arial}
+
+body{
+height:100vh;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+color:white;
+}
+
+/* ⭐ gradient blobs */
+.blob{
+position:absolute;
+width:500px;
+height:500px;
+border-radius:50%;
+filter:blur(120px);
+opacity:.6;
+animation:move 18s infinite alternate ease-in-out;
+}
+.blob1{background:#7c3aed;top:-100px;left:-100px}
+.blob2{background:#06b6d4;bottom:-100px;right:-100px;animation-delay:4s}
+.blob3{background:#ec4899;top:40%;left:60%;animation-delay:8s}
+
+@keyframes move{
+from{transform:translateY(-30px) translateX(-30px)}
+to{transform:translateY(30px) translateX(30px)}
+}
+
+/* ⭐ glass card */
+.card{
+position:relative;
+z-index:10;
+backdrop-filter:blur(18px);
+background:rgba(255,255,255,.05);
+padding:50px;
+width:380px;
+border-radius:20px;
+box-shadow:0 10px 40px rgba(0,0,0,.5);
+animation:fade .7s ease;
+}
+@keyframes fade{from{opacity:0;transform:translateY(30px)}to{opacity:1}}
+
+h1{text-align:center;margin-bottom:30px}
+
+/* ⭐ inputs */
+.inputBox{margin:20px 0}
+input{
+width:100%;
+padding:14px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,.2);
+background:transparent;
+color:white;
+}
+input:focus{outline:none;border-color:#06b6d4}
+
+/* ⭐ button */
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#06b6d4;
+color:white;
+font-size:17px;
+cursor:pointer;
+transition:.3s;
+}
+button:hover{transform:scale(1.05)}
+
+.metric{margin:15px 0;text-align:center}
+.value{font-size:28px;color:#06b6d4}
+
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<div class="card">
+
+<h1>🥗 Nutrition Planner</h1>
+
+<form id="form">
+<div class="inputBox"><input name="height" placeholder="Height (cm)" required></div>
+<div class="inputBox"><input name="weight" placeholder="Weight (kg)" required></div>
+<button>Check Nutrition</button>
+</form>
+
+<div id="result" class="hidden">
+<div class="metric">BMI<div class="value" id="bmi"></div></div>
+<div class="metric">Calories<div class="value" id="cal"></div></div>
+<div class="metric">Diet<div class="value" id="diet"></div></div>
+<button onclick="back()">Back</button>
+</div>
+
+</div>
+
+<script>
+const f=form;
+f.onsubmit=async e=>{
+e.preventDefault();
+let d=new FormData(f);
+let r=await fetch("/submit",{method:"POST",body:new URLSearchParams(d)});
+let j=await r.json();
+bmi.innerText=j.bmi;
+cal.innerText=j.cal;
+diet.innerText=j.diet;
+f.style.display="none";
+result.classList.remove("hidden");
+};
+function back(){result.classList.add("hidden");f.style.display="block"}
+</script>
+
+</body>
+</html>

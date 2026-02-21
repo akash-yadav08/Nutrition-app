@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Result</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI;}
+
+body{
+height:100vh;
+background:linear-gradient(180deg,#020111 0%,#000000 100%);
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+.card{
+backdrop-filter:blur(18px);
+background:rgba(255,255,255,0.05);
+border-radius:25px;
+padding:50px;
+width:380px;
+text-align:center;
+box-shadow:0 0 40px rgba(0,0,0,0.8);
+animation:fade 1s ease;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(40px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+h2{margin-bottom:30px;text-shadow:0 0 15px #4facfe;}
+
+.metric{margin:18px 0;}
+
+.value{
+font-size:28px;
+color:#4facfe;
+text-shadow:0 0 15px #4facfe;
+}
+
+.btn{
+display:inline-block;
+margin-top:20px;
+padding:12px 25px;
+border-radius:10px;
+background:linear-gradient(45deg,#6a11cb,#2575fc);
+color:white;
+text-decoration:none;
+}
+
+.btn:hover{transform:scale(1.08);}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h2>🎯 Nutrition Result</h2>
+
+<div class="metric">BMI<div class="value" id="bmi"></div></div>
+<div class="metric">Calories<div class="value" id="cal"></div></div>
+<div class="metric">Diet<div class="value" id="diet"></div></div>
+
+<a href="/" class="btn">⬅ Back</a>
+</div>
+
+<script>
+const p=new URLSearchParams(window.location.search);
+bmi.innerText=p.get("bmi");
+cal.innerText=p.get("cal");
+diet.innerText=p.get("diet");
+</script>
+
+</body>
+</html>
