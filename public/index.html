@@ -16,7 +16,7 @@ overflow:hidden;
 color:white;
 }
 
-/* ⭐ gradient blobs */
+/* gradient blobs */
 .blob{
 position:absolute;
 width:500px;
@@ -35,7 +35,7 @@ from{transform:translateY(-30px) translateX(-30px)}
 to{transform:translateY(30px) translateX(30px)}
 }
 
-/* ⭐ glass card */
+/* glass card */
 .card{
 position:relative;
 z-index:10;
@@ -51,7 +51,7 @@ animation:fade .7s ease;
 
 h1{text-align:center;margin-bottom:30px}
 
-/* ⭐ inputs */
+/* inputs */
 .inputBox{margin:20px 0}
 input{
 width:100%;
@@ -63,7 +63,7 @@ color:white;
 }
 input:focus{outline:none;border-color:#06b6d4}
 
-/* ⭐ button */
+/* button */
 button{
 width:100%;
 padding:14px;
@@ -74,6 +74,7 @@ color:white;
 font-size:17px;
 cursor:pointer;
 transition:.3s;
+margin-top:10px;
 }
 button:hover{transform:scale(1.05)}
 
@@ -94,12 +95,14 @@ button:hover{transform:scale(1.05)}
 
 <h1>🥗 Nutrition Planner</h1>
 
+<!-- ✅ FORM -->
 <form id="form">
 <div class="inputBox"><input name="height" placeholder="Height (cm)" required></div>
 <div class="inputBox"><input name="weight" placeholder="Weight (kg)" required></div>
 <button>Check Nutrition</button>
 </form>
 
+<!-- ✅ RESULT (FORM KE BAHAR) -->
 <div id="result" class="hidden">
 <div class="metric">BMI<div class="value" id="bmi"></div></div>
 <div class="metric">Calories<div class="value" id="cal"></div></div>
@@ -110,19 +113,30 @@ button:hover{transform:scale(1.05)}
 </div>
 
 <script>
-const f=form;
-f.onsubmit=async e=>{
+const form=document.querySelector("#form");
+const result=document.querySelector("#result");
+
+form.addEventListener("submit",async function(e){
 e.preventDefault();
-let d=new FormData(f);
-let r=await fetch("/submit",{method:"POST",body:new URLSearchParams(d)});
-let j=await r.json();
-bmi.innerText=j.bmi;
-cal.innerText=j.cal;
-diet.innerText=j.diet;
-f.style.display="none";
+
+let height=form.elements["height"].value;
+let weight=form.elements["weight"].value;
+
+let res=await fetch("/submit",{
+method:"POST",
+headers:{"Content-Type":"application/x-www-form-urlencoded"},
+body:`height=${height}&weight=${weight}`
+});
+
+let data=await res.json();
+
+document.getElementById("bmi").innerText=data.bmi;
+document.getElementById("cal").innerText=data.cal;
+document.getElementById("diet").innerText=data.diet;
+
+form.style.display="none";
 result.classList.remove("hidden");
-};
-function back(){result.classList.add("hidden");f.style.display="block"}
+});
 </script>
 
 </body>
