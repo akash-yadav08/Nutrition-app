@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-mongoose.connect("mongodb://mongo:27017/nutrition")
+mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("Mongo connected"))
 .catch(err=>console.log(err));
 
