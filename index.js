@@ -3,10 +3,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 const app = express();
-
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>console.log("Mongo connected"))
-.catch(err=>console.log(err));
+// mongoose.connect(process.env.MONGO_URI)
+// .then(()=>console.log("Mongo connected"))
+// .catch(err=>console.log(err));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
